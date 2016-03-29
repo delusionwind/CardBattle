@@ -2,7 +2,7 @@ var GameLayer = cc.LayerColor.extend({
     init: function() {
         this._super( new cc.Color( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
-        this.card1 = new Card( "Thunder", 5, 150);
+        this.card1 = new Card( "Thunder", 5 );
         this.card1.setPosition( new cc.Point( 750, 150 ));
         this.addChild( this.card1, 0 );
         this.card2 = new Card( "Fire", 5 );
@@ -42,8 +42,17 @@ var GameLayer = cc.LayerColor.extend({
         }, this);
     },
     onKeyDown: function( keyCode, event ) {
-        this.card1.select();
-        console.log(keyCode.toString());
+        if ( keyCode == 49 || keyCode == 97 ) {
+            this.card1.select();
+        } else if ( keyCode == 50 || keyCode == 98) {
+            this.card2.select();
+        } else if ( keyCode == 51 || keyCode == 99) {
+            this.card3.select();
+        } else if ( keyCode == 52 || keyCode == 100) {
+            this.card4.select();
+        } else if ( keyCode == 53 || keyCode == 101) {
+            this.card5.select();
+        }
     },
     onKeyUp: function( keyCode, event ) {
 
