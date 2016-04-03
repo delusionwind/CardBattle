@@ -1,27 +1,29 @@
 var Card = cc.Sprite.extend({
-    ctor: function( element, power ) {
+    ctor: function() {
         this._super();
-        if ( element == "Fire" ) {
+        var elementList = [ "Fire", "Ice", "Thunder", "Rock", "Astral" ];
+        var randInt = Math.floor( Math.random() * 5 );
+        this.chosen = false;
+        this.element = elementList[randInt];
+        if ( this.element == "Fire" ) {
             this.initWithFile( 'res/images/card_fire.jpg' );
-        } else if ( element == "Ice" ) {
+        } else if ( this.element == "Ice" ) {
             this.initWithFile( 'res/images/card_ice.jpg' );
-        } else if ( element == "Thunder" ) {
+        } else if ( this.element == "Thunder" ) {
             this.initWithFile( 'res/images/card_thunder.jpg' );
-        } else if ( element == "Rock" ) {
+        } else if ( this.element == "Rock" ) {
             this.initWithFile( 'res/images/card_rock.jpg' );
         } else {
             this.initWithFile( 'res/images/card_0.jpg' );
         }
-        this.chosen = false;
-        this.element = element;
-        this.power = power;
+        this.power = Math.ceil( Math.random() * 5 );
         this.powerLabel = cc.LabelTTF.create( this.power, 'Arial', 20 );
         var pos = this.getPosition();
-        this.powerLabel.setPosition( new cc.Point( pos.x + 45, pos.y + 60 ) );
+        this.powerLabel.setPosition( new cc.Point( pos.x + 45, pos.y + 80 ) );
         this.addChild( this.powerLabel );
     },
     update: function( dt ) {
-        var pos = this.getPosition();
+        var pos = this.getPosition()
         if ( this.chosen == true ) {
             this.setPosition( new cc.Point( pos.x, pos.y + this.upLength ) );
             this.upLength = 0;

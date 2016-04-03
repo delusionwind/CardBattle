@@ -2,32 +2,23 @@ var GameLayer = cc.LayerColor.extend({
     init: function() {
         this._super( new cc.Color( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
-        this.card1 = new Card( "Thunder", 5 );
-        this.card1.setPosition( new cc.Point( 750, 150 ));
-        this.addChild( this.card1, 0 );
-        this.card2 = new Card( "Fire", 5 );
-        this.card2.setPosition( new cc.Point( 650, 150 ));
-        this.addChild( this.card2, 0 );
-        this.card3 = new Card( "Ice", 5 );
-        this.card3.setPosition( new cc.Point( 550, 150 ));
-        this.addChild( this.card3, 0 );
-        this.card4 = new Card( "Rock", 5 );
-        this.card4.setPosition( new cc.Point( 450, 150 ));
-        this.addChild( this.card4, 0 );
-        this.card5 = new Card( "-", 5 );
-        this.card5.setPosition( new cc.Point( 350, 150 ));
-        this.addChild( this.card5, 0 );
-        this.card1.scheduleUpdate();
-        this.card2.scheduleUpdate();
-        this.card3.scheduleUpdate();
-        this.card4.scheduleUpdate();
-        this.card5.scheduleUpdate();
+
         this.addKeyboardHandlers();
         this.scheduleUpdate();
         return true;
     },
     update: function( dt ) {
 
+    },
+    fullHandDraw: function() {
+        this.cardSlot = new Array(5);
+        for( var i = 0; i < this.cardSlot.length; i++ ) {
+            this.cardSlot[i] = new Card();
+            var point = new cc.Point( 525 + ( ( i - 2 ) * 100 ), 200 );
+            this.cardSlot[i].setPosition( point );
+            this.addChild( this.cardSlot[i] );
+            this.cardSlot[i].scheduleUpdate();
+        }
     },
     addKeyboardHandlers: function() {
         var self = this;
@@ -43,16 +34,20 @@ var GameLayer = cc.LayerColor.extend({
     },
     onKeyDown: function( keyCode, event ) {
         if ( keyCode == 49 || keyCode == 97 ) {
-            this.card1.select();
+            this.cardSlot[0].select();
         } else if ( keyCode == 50 || keyCode == 98) {
-            this.card2.select();
+            this.cardSlot[1].select();
         } else if ( keyCode == 51 || keyCode == 99) {
-            this.card3.select();
+            this.cardSlot[2].select();
         } else if ( keyCode == 52 || keyCode == 100) {
-            this.card4.select();
+            this.cardSlot[3].select();
         } else if ( keyCode == 53 || keyCode == 101) {
-            this.card5.select();
+            this.cardSlot[4].select();
         }
+        if ( keyCode == 32 ) {
+            this.fullHandDraw();
+        }
+        console.log(keyCode);
     },
     onKeyUp: function( keyCode, event ) {
 
