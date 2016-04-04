@@ -17,13 +17,13 @@ var Card = cc.Sprite.extend({
             this.initWithFile( 'res/images/card_0.jpg' );
         }
         this.power = Math.ceil( Math.random() * 5 );
-        this.powerLabel = cc.LabelTTF.create( this.power, 'Arial', 20 );
+        this.powerLabel = cc.LabelTTF.create( this.power, 'ITC Stone Serif LT Italic', 30 );
         var pos = this.getPosition();
         this.powerLabel.setPosition( new cc.Point( pos.x + 45, pos.y + 80 ) );
         this.addChild( this.powerLabel );
     },
     update: function( dt ) {
-        var pos = this.getPosition()
+        var pos = this.getPosition();
         if ( this.chosen == true ) {
             this.setPosition( new cc.Point( pos.x, pos.y + this.upLength ) );
             this.upLength = 0;

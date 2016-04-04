@@ -14,6 +14,7 @@
     "jsList" : [
         "src/resource.js",
         "src/GameLayer.js",
-        "src/Card.js"
+        "src/Card.js",
+        "src/BattleStatus.js"
     ]
 }

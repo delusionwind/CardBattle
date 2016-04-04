@@ -2,7 +2,10 @@ var GameLayer = cc.LayerColor.extend({
     init: function() {
         this._super( new cc.Color( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
-
+        this.battleStatus = new BattleStatus();
+        this.battleStatus.setPosition( new cc.Point( 540, 315 ) );
+        this.addChild( this.battleStatus );
+        this.battleStatus.scheduleUpdate();
         this.addKeyboardHandlers();
         this.scheduleUpdate();
         return true;
@@ -13,6 +16,9 @@ var GameLayer = cc.LayerColor.extend({
     fullHandDraw: function() {
         this.cardSlot = new Array(5);
         for( var i = 0; i < this.cardSlot.length; i++ ) {
+            /*if ( typeof this.cardSlot[i] !== 'undefined' ) {
+                this.removeChild( this.cardSlot[i] );
+            }*/
             this.cardSlot[i] = new Card();
             var point = new cc.Point( 525 + ( ( i - 2 ) * 100 ), 200 );
             this.cardSlot[i].setPosition( point );

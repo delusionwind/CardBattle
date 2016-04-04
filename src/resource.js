@@ -3,7 +3,8 @@ var res = {
     ice: 'res/images/card_ice.jpg',
     thunder: 'res/images/card_thunder.jpg',
     rock: 'res/images/card_rock.jpg',
-    astral: 'res/images/card_0.jpg'
+    astral: 'res/images/card_0.jpg',
+    bar: 'res/images/battleBar.jpg'
 };
 
 var g_resources = [];
