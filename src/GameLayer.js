@@ -5,6 +5,7 @@ var GameLayer = cc.LayerColor.extend({
         this.battleStatus = new BattleStatus();
         this.battleStatus.setPosition( new cc.Point( 540, 315 ) );
         this.addChild( this.battleStatus );
+        this.phase = GameLayer.PHASE.DRAW;
         this.battleStatus.scheduleUpdate();
         this.addKeyboardHandlers();
         this.scheduleUpdate();
@@ -39,26 +40,45 @@ var GameLayer = cc.LayerColor.extend({
         }, this);
     },
     onKeyDown: function( keyCode, event ) {
-        if ( keyCode == 49 || keyCode == 97 ) {
-            this.cardSlot[0].select();
-        } else if ( keyCode == 50 || keyCode == 98) {
-            this.cardSlot[1].select();
-        } else if ( keyCode == 51 || keyCode == 99) {
-            this.cardSlot[2].select();
-        } else if ( keyCode == 52 || keyCode == 100) {
-            this.cardSlot[3].select();
-        } else if ( keyCode == 53 || keyCode == 101) {
-            this.cardSlot[4].select();
+        if ( this.phase == GameLayer.PHASE.DRAW ) {
+            if ( keyCode == 32 ) {
+                this.phase = GameLayer.PHASE.MOVE;
+                this.battleStatus.changePhase( this.phase );
+                this.fullHandDraw();
+            }
+        } else if ( this.phase != GameLayer.PHASE.DRAW ) {
+            if ( keyCode == 49 || keyCode == 97 ) {
+                this.cardSlot[0].select();
+            } else if ( keyCode == 50 || keyCode == 98) {
+                this.cardSlot[1].select();
+            } else if ( keyCode == 51 || keyCode == 99) {
+                this.cardSlot[2].select();
+            } else if ( keyCode == 52 || keyCode == 100) {
+                this.cardSlot[3].select();
+            } else if ( keyCode == 53 || keyCode == 101) {
+                this.cardSlot[4].select();
+            }
+            if ( keyCode == 32 ) {
+                this.phase++;
+                if ( this.phase > 4 ) {
+                    this.phase = GameLayer.PHASE.DRAW;
+                }
+                this.battleStatus.changePhase( this.phase );
+            }
         }
-        if ( keyCode == 32 ) {
-            this.fullHandDraw();
-        }
-        console.log(keyCode);
+        console.log(this.phase);
     },
     onKeyUp: function( keyCode, event ) {
 
     }
 });
+
+GameLayer.PHASE = {
+    DRAW: 1,
+    MOVE: 2,
+    ATTACK: 3,
+    DEFENSE: 4
+};
 
 var StartScene = cc.Scene.extend({
     onEnter: function() {
