@@ -5,6 +5,7 @@ var GameLayer = cc.LayerColor.extend({
         this.battleStatus = new BattleStatus();
         this.battleStatus.setPosition( new cc.Point( 540, 315 ) );
         this.addChild( this.battleStatus );
+        this.cardSlot = new Array(5);
         this.phase = GameLayer.PHASE.DRAW;
         this.battleStatus.scheduleUpdate();
         this.addKeyboardHandlers();
@@ -15,16 +16,14 @@ var GameLayer = cc.LayerColor.extend({
 
     },
     fullHandDraw: function() {
-        this.cardSlot = new Array(5);
         for( var i = 0; i < this.cardSlot.length; i++ ) {
-            /*if ( typeof this.cardSlot[i] !== 'undefined' ) {
-                this.removeChild( this.cardSlot[i] );
-            }*/
-            this.cardSlot[i] = new Card();
-            var point = new cc.Point( 525 + ( ( i - 2 ) * 100 ), 200 );
-            this.cardSlot[i].setPosition( point );
-            this.addChild( this.cardSlot[i] );
-            this.cardSlot[i].scheduleUpdate();
+            if ( this.cardSlot[i] === undefined ) {
+                this.cardSlot[i] = new Card();
+                var point = new cc.Point( 525 + ( ( i - 2 ) * 100 ), 200 );
+                this.cardSlot[i].setPosition( point );
+                this.addChild( this.cardSlot[i] );
+                this.cardSlot[i].scheduleUpdate();
+            }
         }
     },
     addKeyboardHandlers: function() {
@@ -48,17 +47,32 @@ var GameLayer = cc.LayerColor.extend({
             }
         } else if ( this.phase != GameLayer.PHASE.DRAW ) {
             if ( keyCode == 49 || keyCode == 97 ) {
-                this.cardSlot[0].select();
+                if ( this.cardSlot[0] !== undefined ) {
+                    this.cardSlot[0].select();
+                }
             } else if ( keyCode == 50 || keyCode == 98) {
-                this.cardSlot[1].select();
+                if ( this.cardSlot[1] !== undefined ) {
+                    this.cardSlot[1].select();
+                }
             } else if ( keyCode == 51 || keyCode == 99) {
-                this.cardSlot[2].select();
+                if ( this.cardSlot[2] !== undefined ) {
+                    this.cardSlot[2].select();
+                }
             } else if ( keyCode == 52 || keyCode == 100) {
-                this.cardSlot[3].select();
+                if ( this.cardSlot[3] !== undefined ) {
+                    this.cardSlot[3].select();
+                }
             } else if ( keyCode == 53 || keyCode == 101) {
-                this.cardSlot[4].select();
-            }
-            if ( keyCode == 32 ) {
+                if ( this.cardSlot[4] !== undefined ) {
+                    this.cardSlot[4].select();
+                }
+            } else if ( keyCode == 32 ) {
+                for ( var i = 0; i < this.cardSlot.length; i++ ) {
+                    if ( this.cardSlot[i] !== undefined && this.cardSlot[i].chosen == true ) {
+                        this.removeChild( this.cardSlot[i] );
+                        this.cardSlot[i] = undefined;
+                    }
+                }
                 this.phase++;
                 if ( this.phase > 4 ) {
                     this.phase = GameLayer.PHASE.DRAW;
