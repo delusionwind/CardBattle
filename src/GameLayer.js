@@ -5,9 +5,13 @@ var GameLayer = cc.LayerColor.extend({
         this.battleStatus = new BattleStatus();
         this.battleStatus.setPosition( new cc.Point( 540, 315 ) );
         this.addChild( this.battleStatus );
+        this.deck = new Deck();
+        this.deck.setPosition( new cc.Point( 60, 0 ) );
+        this.addChild( this.deck );
         this.cardSlot = new Array(5);
         this.phase = GameLayer.PHASE.DRAW;
         this.battleStatus.scheduleUpdate();
+        this.deck.scheduleUpdate();
         this.addKeyboardHandlers();
         this.scheduleUpdate();
         return true;
@@ -17,8 +21,9 @@ var GameLayer = cc.LayerColor.extend({
     },
     fullHandDraw: function() {
         for( var i = 0; i < this.cardSlot.length; i++ ) {
-            if ( this.cardSlot[i] === undefined ) {
+            if ( this.cardSlot[i] === undefined && this.deck.remainingCard > 0) {
                 this.cardSlot[i] = new Card();
+                this.deck.drawCard();
                 var point = new cc.Point( 525 + ( ( i - 2 ) * 100 ), 200 );
                 this.cardSlot[i].setPosition( point );
                 this.addChild( this.cardSlot[i] );
@@ -41,46 +46,49 @@ var GameLayer = cc.LayerColor.extend({
     onKeyDown: function( keyCode, event ) {
         if ( this.phase == GameLayer.PHASE.DRAW ) {
             if ( keyCode == 32 ) {
-                this.phase = GameLayer.PHASE.MOVE;
-                this.battleStatus.changePhase( this.phase );
-                this.fullHandDraw();
+                this.endDrawPhase();
             }
         } else if ( this.phase != GameLayer.PHASE.DRAW ) {
             if ( keyCode == 49 || keyCode == 97 ) {
-                if ( this.cardSlot[0] !== undefined ) {
-                    this.cardSlot[0].select();
-                }
+                this.selectExistingCard(0);
             } else if ( keyCode == 50 || keyCode == 98) {
-                if ( this.cardSlot[1] !== undefined ) {
-                    this.cardSlot[1].select();
-                }
+                this.selectExistingCard(1);
             } else if ( keyCode == 51 || keyCode == 99) {
-                if ( this.cardSlot[2] !== undefined ) {
-                    this.cardSlot[2].select();
-                }
+                this.selectExistingCard(2);
             } else if ( keyCode == 52 || keyCode == 100) {
-                if ( this.cardSlot[3] !== undefined ) {
-                    this.cardSlot[3].select();
-                }
+                this.selectExistingCard(3);
             } else if ( keyCode == 53 || keyCode == 101) {
-                if ( this.cardSlot[4] !== undefined ) {
-                    this.cardSlot[4].select();
-                }
+                this.selectExistingCard(4);
             } else if ( keyCode == 32 ) {
-                for ( var i = 0; i < this.cardSlot.length; i++ ) {
-                    if ( this.cardSlot[i] !== undefined && this.cardSlot[i].chosen == true ) {
-                        this.removeChild( this.cardSlot[i] );
-                        this.cardSlot[i] = undefined;
-                    }
-                }
-                this.phase++;
-                if ( this.phase > 4 ) {
-                    this.phase = GameLayer.PHASE.DRAW;
-                }
-                this.battleStatus.changePhase( this.phase );
+                this.endPhase();
             }
         }
-        console.log(this.phase);
+    },
+    endDrawPhase: function() {
+        this.phase = GameLayer.PHASE.MOVE;
+        this.battleStatus.changePhase( this.phase );
+        this.fullHandDraw();
+    },
+    endPhase: function() {
+        this.removeSelectedCard();
+        this.phase++;
+        if ( this.phase > 4 ) {
+            this.phase = GameLayer.PHASE.DRAW;
+        }
+        this.battleStatus.changePhase( this.phase );
+    },
+    selectExistingCard: function( slot ) {
+        if ( this.cardSlot[slot] !== undefined ) {
+            this.cardSlot[slot].select();
+        }
+    },
+    removeSelectedCard: function() {
+        for ( var i = 0; i < this.cardSlot.length; i++ ) {
+            if ( this.cardSlot[i] !== undefined && this.cardSlot[i].chosen == true ) {
+                this.removeChild( this.cardSlot[i] );
+                this.cardSlot[i] = undefined;
+            }
+        }
     },
     onKeyUp: function( keyCode, event ) {
 
