@@ -12,10 +12,13 @@ var Deck = cc.Node.extend({
         var pos = this.getPosition();
         this.amountLabel.setPosition( new cc.Point( pos.x + 10, pos.y + 40 ) );
         this.addChild( this.amountLabel );
+        this.deckLabel = cc.LabelTTF.create( "DECK:", 'ITC Stone Serif LT Italic', 20 );
+        this.deckLabel.setPosition( new cc.Point( pos.x + 10, pos.y + 95 ) );
+        this.addChild( this.deckLabel );
     },
     update: function( dt ) {
         for( var i = 0; i < this.part.length; i++ ) {
-            if( this.part[i] !== undefined && this.remainingCard < ( 5 * i ) ) {
+            if( this.part[i] !== undefined && this.remainingCard <= ( 5 * i ) ) {
                 this.removeChild( this.part[i] );
             }
         }

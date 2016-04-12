@@ -17,6 +17,7 @@ var Card = cc.Sprite.extend({
             this.initWithFile( 'res/images/card_0.jpg' );
         }
         this.power = Math.ceil( Math.random() * 5 );
+        this.upLength = 0;
         this.powerLabel = cc.LabelTTF.create( this.power, 'ITC Stone Serif LT Italic', 30 );
         var pos = this.getPosition();
         this.powerLabel.setPosition( new cc.Point( pos.x + 45, pos.y + 80 ) );
