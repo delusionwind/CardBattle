@@ -2,16 +2,21 @@ var GameLayer = cc.LayerColor.extend({
     init: function() {
         this._super( new cc.Color( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
+
         this.battleStatus = new BattleStatus();
         this.battleStatus.setPosition( new cc.Point( 540, 315 ) );
         this.addChild( this.battleStatus );
+        this.battleStatus.scheduleUpdate();
+
         this.deck = new Deck();
         this.deck.setPosition( new cc.Point( 60, 0 ) );
         this.addChild( this.deck );
-        this.cardSlot = new Array(5);
-        this.phase = GameLayer.PHASE.START;
-        this.battleStatus.scheduleUpdate();
         this.deck.scheduleUpdate();
+
+        this.cardSlot = new Array(5);
+
+        this.phase = GameLayer.PHASE.START;
+
         this.addKeyboardHandlers();
         this.scheduleUpdate();
         return true;
@@ -74,6 +79,7 @@ var GameLayer = cc.LayerColor.extend({
     selectExistingCard: function( slot ) {
         if ( this.cardSlot[slot] !== undefined ) {
             this.cardSlot[slot].select();
+            this.battleStatus.updateElementPower( this.cardSlot );
         }
     },
     removeSelectedCard: function() {
