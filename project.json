@@ -16,6 +16,8 @@
         "src/GameLayer.js",
         "src/Card.js",
         "src/BattleStatus.js",
-        "src/Deck.js"
+        "src/Deck.js",
+        "src/Player.js",
+        "src/Enemy.js"
     ]
 }

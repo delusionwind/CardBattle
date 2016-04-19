@@ -13,6 +13,11 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.deck );
         this.deck.scheduleUpdate();
 
+        this.player = new Player( "New Player", 50 );
+        this.player.setPosition( new cc.Point( 80, 200 ) );
+        this.addChild( this.player );
+        this.player.scheduleUpdate();
+
         this.cardSlot = new Array(5);
 
         this.phase = GameLayer.PHASE.START;
