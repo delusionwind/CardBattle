@@ -41,7 +41,7 @@ var BattleStatus = cc.Node.extend({
                     this.elementLabel[2].setString( "Thunder\n" + this.thunder );
                 } else if ( hand[i].element == "Rock" ) {
                     this.rock += hand[i].power;
-                    this.elementLabel[3].setString( "Fire\n" + this.rock );
+                    this.elementLabel[3].setString( "Rock\n" + this.rock );
                 } else {
                     this.astral += hand[i].power;
                     this.elementLabel[4].setString( "Astral\n" + this.astral );
