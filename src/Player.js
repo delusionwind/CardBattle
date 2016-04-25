@@ -13,7 +13,9 @@ var Player = cc.Node.extend({
         this.HPLabel = cc.LabelTTF.create( this.health+"/"+this.maxHP, 'ITC Stone Serif LT Italic', 20 );
         this.HPLabel.setPosition( new cc.Point( pos.x, pos.y ) );
         this.addChild( this.HPLabel );
-
-
+    },
+    receiveDamage: function( damage ) {
+        this.health -= damage;
+        this.HPLabel.setString( this.health+"/"+this.maxHP );
     }
 });

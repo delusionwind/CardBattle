@@ -79,13 +79,14 @@ var GameLayer = cc.LayerColor.extend({
         if ( this.phase == GameLayer.PHASE.START ) {
             this.startNewTurn();
         } else if ( this.phase == GameLayer.PHASE.MOVE ) {
-            if ( this.battleStatus.calculateAttacker( /*toBeChanged*/3 ) >= 0 ) {
+            if ( this.battleStatus.calculateAttacker( this.enemy.randomMovePower() ) >= 0 ) {
                 this.phase = GameLayer.PHASE.ATTACK;
             } else {
                 this.phase = GameLayer.PHASE.DEFENSE;
             }
         } else if ( this.phase == GameLayer.PHASE.ATTACK ) {
             this.phaseEnded++;
+            this.enemy.defense( this.battleStatus.dealElementDamage() );
             if ( this.phaseEnded < 2 ) {
                 this.phase = GameLayer.PHASE.DEFENSE;
             } else {
@@ -109,7 +110,11 @@ var GameLayer = cc.LayerColor.extend({
     selectExistingCard: function( slot ) {
         if ( this.cardSlot[slot] !== undefined ) {
             this.cardSlot[slot].select();
-            this.battleStatus.updateElementPower( this.cardSlot );
+            if ( this.phase == GameLayer.PHASE.MOVE ) {
+                this.battleStatus.updateSpeed( this.cardSlot );
+            } else {
+                this.battleStatus.updateElementPower( this.cardSlot );
+            }
         }
     },
     removeSelectedCard: function() {

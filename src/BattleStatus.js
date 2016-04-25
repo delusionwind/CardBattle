@@ -8,11 +8,13 @@ var BattleStatus = cc.Node.extend({
         this.phaseLabel.setPosition( new cc.Point( pos.x - 40, pos.y ) );
         this.addChild( this.phaseLabel );
 
+        this.speed = 0;
         this.fire = 0;
         this.ice = 0;
         this.thunder = 0;
         this.rock = 0;
         this.astral = 0;
+
         this.elementLabel = new Array(5);
         for( var i = 0; i < this.elementLabel.length; i++ ) {
             this.elementLabel[i] = cc.LabelTTF.create( "", 'ITC Stone Serif LT Italic', 18 );
@@ -20,13 +22,16 @@ var BattleStatus = cc.Node.extend({
             this.addChild( this.elementLabel[i] );
         }
     },
-
+    updateSpeed: function( hand ) {
+        this.clearElementPower();
+        for( var i = 0; i < hand.length; i++ ) {
+            if ( hand[i] !== undefined && hand[i].chosen == true ) {
+                this.speed += hand[i].power;
+                this.elementLabel[2].setString( "SPEED: " + this.speed );
+            }
+        }
+    },
     updateElementPower: function( hand ) {
-        this.fire = 0;
-        this.ice = 0;
-        this.thunder = 0;
-        this.rock = 0;
-        this.astral = 0;
         this.clearElementPower();
         for( var i = 0; i < hand.length; i++ ) {
             if ( hand[i] !== undefined && hand[i].chosen == true ) {
@@ -50,6 +55,12 @@ var BattleStatus = cc.Node.extend({
         }
     },
     clearElementPower: function() {
+        this.speed = 0;
+        this.fire = 0;
+        this.ice = 0;
+        this.thunder = 0;
+        this.rock = 0;
+        this.astral = 0;
         for( var i = 0; i < this.elementLabel.length; i++ ) {
             this.elementLabel[i].setString("");
         }
@@ -69,9 +80,12 @@ var BattleStatus = cc.Node.extend({
     },
 
     calculateAttacker: function( enemyMoves ) {
-        return this.sumOfAllElement() - enemyMoves;
+        return this.speed - enemyMoves;
     },
-    sumOfAllElement: function() {
+    sumOfElement: function() {
         return this.fire + this.ice + this.thunder + this.rock + this.astral;
+    },
+    dealElementDamage: function() {
+        return [this.fire, this.ice, this.thunder, this.rock, this.astral];
     }
 });
