@@ -1,6 +1,5 @@
-var Enemy = cc.Node.extend({
-    ctor: function() {
-        this._super();
-        
+var Enemy = Player.extend({
+    ctor: function( name, hp ) {
+        this._super( name, hp );
     }
 });

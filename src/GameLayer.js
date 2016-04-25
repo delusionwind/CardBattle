@@ -18,9 +18,15 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.player );
         this.player.scheduleUpdate();
 
+        this.enemy = new Enemy( "New Enemy", 50 );
+        this.enemy.setPosition( new cc.Point( 600, 500 ) );
+        this.addChild( this.enemy );
+        this.enemy.scheduleUpdate();
+
         this.cardSlot = new Array(5);
 
         this.phase = GameLayer.PHASE.START;
+        this.phaseEnded = 0;
 
         this.addKeyboardHandlers();
         this.scheduleUpdate();
@@ -68,18 +74,37 @@ var GameLayer = cc.LayerColor.extend({
             this.endPhase();
         }
     },
-    startGame: function() {
-
-    },
     endPhase: function() {
         this.removeSelectedCard();
-        this.phase++;
-        if ( this.phase > 4 ) {
-          this.phase = GameLayer.PHASE.MOVE;
-          this.battleStatus.changePhase( this.phase );
-          this.fullHandDraw();
+        if ( this.phase == GameLayer.PHASE.START ) {
+            this.startNewTurn();
+        } else if ( this.phase == GameLayer.PHASE.MOVE ) {
+            if ( this.battleStatus.calculateAttacker( /*toBeChanged*/3 ) >= 0 ) {
+                this.phase = GameLayer.PHASE.ATTACK;
+            } else {
+                this.phase = GameLayer.PHASE.DEFENSE;
+            }
+        } else if ( this.phase == GameLayer.PHASE.ATTACK ) {
+            this.phaseEnded++;
+            if ( this.phaseEnded < 2 ) {
+                this.phase = GameLayer.PHASE.DEFENSE;
+            } else {
+                this.startNewTurn();
+            }
+        } else if ( this.phase == GameLayer.PHASE.DEFENSE ) {
+            this.phaseEnded++;
+            if ( this.phaseEnded < 2 ) {
+                this.phase = GameLayer.PHASE.ATTACK;
+            } else {
+                this.startNewTurn();
+            }
         }
         this.battleStatus.changePhase( this.phase );
+    },
+    startNewTurn: function() {
+        this.phaseEnded = 0;
+        this.phase = GameLayer.PHASE.MOVE;
+        this.fullHandDraw();
     },
     selectExistingCard: function( slot ) {
         if ( this.cardSlot[slot] !== undefined ) {

@@ -66,5 +66,12 @@ var BattleStatus = cc.Node.extend({
         } else if ( phase == 4 ) {
             this.phaseLabel.setString( "DEFENSE PHASE" );
         }
+    },
+
+    calculateAttacker: function( enemyMoves ) {
+        return this.sumOfAllElement() - enemyMoves;
+    },
+    sumOfAllElement: function() {
+        return this.fire + this.ice + this.thunder + this.rock + this.astral;
     }
 });
