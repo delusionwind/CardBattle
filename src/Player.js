@@ -15,7 +15,9 @@ var Player = cc.Node.extend({
         this.addChild( this.HPLabel );
     },
     receiveDamage: function( damage ) {
-        this.health -= damage;
+        if ( damage > 0 ) {
+            this.health -= damage;
+        }
         this.HPLabel.setString( this.health+"/"+this.maxHP );
     }
 });

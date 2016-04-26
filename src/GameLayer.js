@@ -18,8 +18,8 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.player );
         this.player.scheduleUpdate();
 
-        this.enemy = new Enemy( "New Enemy", 50 );
-        this.enemy.setPosition( new cc.Point( 600, 500 ) );
+        this.enemy = new Enemy( "Element = Fire", 30, "Fire" );
+        this.enemy.setPosition( new cc.Point( 700, 500 ) );
         this.addChild( this.enemy );
         this.enemy.scheduleUpdate();
 
