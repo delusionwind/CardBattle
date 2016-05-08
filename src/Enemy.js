@@ -21,10 +21,9 @@ var Enemy = Player.extend({
             this.addChild( this.elementLabel[i] );
         }
     },
-    update: function( dt ) {
-        this.timer++;
-    },
     randomMovePower: function() {
+        this.clearElementPower();
+        this.clearElementLabel();
         var power = Math.floor( Math.random() * 5 );
         this.elementLabel[2].setString( "SPEED: " + power );
         return power;
@@ -33,6 +32,7 @@ var Enemy = Player.extend({
         return Math.floor( Math.random() * maximum );
     },
     attack: function( strength ) {
+        this.clearElementPower();
         if ( this.element == "Fire" ) {
             this.fire = this.randomPower( 4 + strength );
         } else if ( this.element == "Ice" ) {
@@ -47,10 +47,12 @@ var Enemy = Player.extend({
         this.thunder += this.randomPower( strength );
         this.rock  += this.randomPower( strength );
         this.astral  += this.randomPower( strength );
+        this.clearElementLabel();
         this.showElementPower();
         return this.elementList();
     },
     defense: function( elementDamage ) {
+        this.clearElementPower();
         if ( this.element == "Fire" ) {
             this.fire = this.randomPower( 10 );
             this.ice = Math.floor( this.fire / 2 );
@@ -64,6 +66,7 @@ var Enemy = Player.extend({
             this.rock = this.randomPower( 10 );
             this.thunder = Math.floor( this.rock / 2 );
         }
+        this.clearElementLabel();
         this.showElementPower();
         var damage = 0;
         for (var i = 0; i < elementDamage.length; i++) {
@@ -71,9 +74,7 @@ var Enemy = Player.extend({
                 damage += elementDamage[i] - this.elementList()[i];
             }
         }
-        this.timer = 0;
-        this.receiveDamage( damage );
-        //this.clearElementLabel();
+        return damage
     },
     showElementPower: function() {
         if ( this.fire > 0 ) {
@@ -93,14 +94,16 @@ var Enemy = Player.extend({
         }
     },
     clearElementLabel: function() {
+        for ( var i = 0; i < 5; i++ ) {
+          this.elementLabel[i].setString("");
+        }
+    },
+    clearElementPower: function() {
         this.fire = 0;
         this.ice = 0;
         this.thunder = 0;
         this.rock = 0;
         this.astral = 0;
-        for ( var i = 0; i < 5; i++ ) {
-          this.elementLabel[i].setString("");
-        }
     },
     elementList: function() {
         return [ this.fire, this.ice, this.thunder, this.rock, this.astral ];

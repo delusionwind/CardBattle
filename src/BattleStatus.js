@@ -31,9 +31,9 @@ var BattleStatus = cc.Node.extend({
         for( var i = 0; i < hand.length; i++ ) {
             if ( hand[i] !== undefined && hand[i].chosen == true ) {
                 this.speed += hand[i].power;
-                this.elementLabel[2].setString( "SPEED: " + this.speed );
             }
         }
+        this.elementLabel[2].setString( "SPEED: " + this.speed );
     },
     updateElementPower: function( hand ) {
         this.clearElementPower();

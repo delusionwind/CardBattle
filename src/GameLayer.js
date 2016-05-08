@@ -28,6 +28,10 @@ var GameLayer = cc.LayerColor.extend({
 
         this.phase = GameLayer.PHASE.START;
         this.phaseEnded = 0;
+        this.phaseAction = true;
+        this.damage = 0;
+        this.enemyAttack = 0;
+        this.enemyMovePower = 0;
 
         this.addKeyboardHandlers();
         this.scheduleUpdate();
@@ -55,17 +59,30 @@ var GameLayer = cc.LayerColor.extend({
         }, this);
     },
     onKeyDown: function( keyCode, event ) {
-        if ( keyCode == 49 || keyCode == 97 ) {
-            this.selectExistingCard(0);
-        } else if ( keyCode == 50 || keyCode == 98) {
-            this.selectExistingCard(1);
-        } else if ( keyCode == 51 || keyCode == 99) {
-            this.selectExistingCard(2);
-        } else if ( keyCode == 52 || keyCode == 100) {
-            this.selectExistingCard(3);
-        } else if ( keyCode == 53 || keyCode == 101) {
-            this.selectExistingCard(4);
-        } else if ( keyCode == 32 ) {
+        if ( this.phaseAction == false ) {
+            if ( keyCode == 49 || keyCode == 97 ) {
+                this.selectExistingCard(0);
+            } else if ( keyCode == 50 || keyCode == 98) {
+                this.selectExistingCard(1);
+            } else if ( keyCode == 51 || keyCode == 99) {
+                this.selectExistingCard(2);
+            } else if ( keyCode == 52 || keyCode == 100) {
+                this.selectExistingCard(3);
+            } else if ( keyCode == 53 || keyCode == 101) {
+                this.selectExistingCard(4);
+            } else if ( keyCode == 32 ) {
+                if ( this.phase == GameLayer.PHASE.ATTACK) {
+                    this.damage = this.enemy.defense( this.battleStatus.elementList() );
+                    this.phaseAction = true;
+                } else if ( this.phase == GameLayer.PHASE.DEFENSE ) {
+                    this.damage = this.battleStatus.defense( this.enemyAttack );
+                    this.phaseAction = true;
+                } else if ( this.phase == GameLayer.PHASE.MOVE ) {
+                    this.enemyMovePower = this.enemy.randomMovePower();
+                    this.phaseAction = true;
+                }
+            }
+        } else if ( this.phaseAction == true ) {
             if ( this.phase == GameLayer.PHASE.START ) {
                 this.fullHandDraw();
             }
@@ -73,18 +90,20 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     endPhase: function() {
+        this.phaseAction = false;
+        this.enemy.clearElementLabel();
         this.removeSelectedCard();
         if ( this.phase == GameLayer.PHASE.START ) {
             this.startNewTurn();
         } else if ( this.phase == GameLayer.PHASE.MOVE ) {
-            if ( this.battleStatus.calculateAttacker( this.enemy.randomMovePower() ) >= 0 ) {
+            if ( this.battleStatus.calculateAttacker( this.enemyMovePower ) >= 0 ) {
                 this.phase = GameLayer.PHASE.ATTACK;
             } else {
                 this.phase = GameLayer.PHASE.DEFENSE;
             }
         } else if ( this.phase == GameLayer.PHASE.ATTACK ) {
             this.phaseEnded++;
-            this.enemy.defense( this.battleStatus.elementList() );
+            this.enemy.receiveDamage( this.damage );
             if ( this.phaseEnded < 2 ) {
                 this.phase = GameLayer.PHASE.DEFENSE;
             } else {
@@ -92,12 +111,16 @@ var GameLayer = cc.LayerColor.extend({
             }
         } else if ( this.phase == GameLayer.PHASE.DEFENSE ) {
             this.phaseEnded++;
-            this.player.receiveDamage( this.battleStatus.defense( this.enemy.attack( 3 - this.phaseEnded ) ) );
+            this.player.receiveDamage( this.damage );
             if ( this.phaseEnded < 2 ) {
                 this.phase = GameLayer.PHASE.ATTACK;
             } else {
                 this.startNewTurn();
             }
+        }
+        if ( this.phase == GameLayer.PHASE.DEFENSE ) {
+            this.battleStatus.clearElementPower();
+            this.enemyAttack = this.enemy.attack( 3 - this.phaseEnded );
         }
         this.battleStatus.changePhase( this.phase );
     },
