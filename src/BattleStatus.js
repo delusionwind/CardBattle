@@ -54,6 +54,15 @@ var BattleStatus = cc.Node.extend({
             }
         }
     },
+    defense: function( enemyElement ) {
+        var damage = 0;
+        for (var i = 0; i < enemyElement.length; i++) {
+            if ( enemyElement[i] > this.elementList()[i] ) {
+                damage += enemyElement[i] - this.elementList()[i];
+            }
+        }
+        return damage;
+    },
     clearElementPower: function() {
         this.speed = 0;
         this.fire = 0;
@@ -85,7 +94,7 @@ var BattleStatus = cc.Node.extend({
     sumOfElement: function() {
         return this.fire + this.ice + this.thunder + this.rock + this.astral;
     },
-    dealElementDamage: function() {
+    elementList: function() {
         return [this.fire, this.ice, this.thunder, this.rock, this.astral];
     }
 });

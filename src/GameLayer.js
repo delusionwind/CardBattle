@@ -84,7 +84,7 @@ var GameLayer = cc.LayerColor.extend({
             }
         } else if ( this.phase == GameLayer.PHASE.ATTACK ) {
             this.phaseEnded++;
-            this.enemy.defense( this.battleStatus.dealElementDamage() );
+            this.enemy.defense( this.battleStatus.elementList() );
             if ( this.phaseEnded < 2 ) {
                 this.phase = GameLayer.PHASE.DEFENSE;
             } else {
@@ -92,7 +92,7 @@ var GameLayer = cc.LayerColor.extend({
             }
         } else if ( this.phase == GameLayer.PHASE.DEFENSE ) {
             this.phaseEnded++;
-            this.enemy.attack( 3 - this.phaseEnded );
+            this.player.receiveDamage( this.battleStatus.defense( this.enemy.attack( 3 - this.phaseEnded ) ) );
             if ( this.phaseEnded < 2 ) {
                 this.phase = GameLayer.PHASE.ATTACK;
             } else {
