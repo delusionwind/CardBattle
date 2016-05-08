@@ -3,6 +3,10 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
 
+        this.backGround = cc.Sprite.create( 'res/images/space.jpg' );
+        this.backGround.setPosition( new cc.Point( 400, 300 ) );
+        this.addChild( this.backGround );
+
         this.battleStatus = new BattleStatus();
         this.battleStatus.setPosition( new cc.Point( 540, 315 ) );
         this.addChild( this.battleStatus );
@@ -73,12 +77,15 @@ var GameLayer = cc.LayerColor.extend({
             } else if ( keyCode == 32 ) {
                 if ( this.phase == GameLayer.PHASE.ATTACK) {
                     this.damage = this.enemy.defense( this.battleStatus.elementList() );
+                    this.battleStatus.attackResult( this.damage );
                     this.phaseAction = true;
                 } else if ( this.phase == GameLayer.PHASE.DEFENSE ) {
                     this.damage = this.battleStatus.defense( this.enemyAttack );
+                    this.battleStatus.defenseResult( this.damage );
                     this.phaseAction = true;
                 } else if ( this.phase == GameLayer.PHASE.MOVE ) {
                     this.enemyMovePower = this.enemy.randomMovePower();
+                    this.battleStatus.moveResult( this.enemyMovePower );
                     this.phaseAction = true;
                 }
             }

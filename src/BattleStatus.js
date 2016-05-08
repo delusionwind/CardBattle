@@ -26,6 +26,19 @@ var BattleStatus = cc.Node.extend({
             this.addChild( this.elementLabel[i] );
         }
     },
+    moveResult: function( enemyMovePower ) {
+        if ( this.calculateAttacker( enemyMovePower ) >= 0 ) {
+            this.phaseLabel.setString( "Player Attack first" );
+        } else {
+            this.phaseLabel.setString( "Enemy Attack first" );
+        }
+    },
+    attackResult: function( damage ) {
+        this.phaseLabel.setString( "Player deal " + damage + " damage to enemy" );
+    },
+    defenseResult: function( damage ) {
+        this.phaseLabel.setString( "Player receive "+ damage + " damage" );
+    },
     updateSpeed: function( hand ) {
         this.clearElementPower();
         for( var i = 0; i < hand.length; i++ ) {

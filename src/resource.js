@@ -4,7 +4,9 @@ var res = {
     thunder: 'res/images/card_thunder.jpg',
     rock: 'res/images/card_rock.jpg',
     astral: 'res/images/card_0.jpg',
-    bar: 'res/images/battleBar.jpg'
+    bar: 'res/images/battleBar.jpg',
+    howTo: 'res/images/howToPlay.jpg',
+    space: 'res/images/space.jpg'
 };
 
 var g_resources = [];

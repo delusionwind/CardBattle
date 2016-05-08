@@ -3,6 +3,10 @@ var Menu = cc.LayerColor.extend({
         this._super( new cc.Color( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
 
+        this.backGround = cc.Sprite.create( 'res/images/space.jpg' );
+        this.backGround.setPosition( new cc.Point( 400, 300 ) );
+        this.addChild( this.backGround );
+
         this.logo = cc.Sprite.create( 'res/images/battleBar.jpg' );
         this.logo.setPosition( new cc.Point( 400, 500 ) );
         this.addChild( this.logo );
