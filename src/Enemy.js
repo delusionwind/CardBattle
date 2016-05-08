@@ -29,24 +29,39 @@ var Enemy = Player.extend({
         this.elementLabel[2].setString( "SPEED: " + power );
         return power;
     },
-    attack: function() {
-
+    randomPower: function ( maximum ) {
+        return Math.floor( Math.random() * maximum );
+    },
+    attack: function( strength ) {
+        if ( this.element == "Fire" ) {
+            this.fire = this.randomPower( 4 + strength );
+        } else if ( this.element == "Ice" ) {
+            this.ice = this.randomPower( 4 + strength );
+        } else if ( this.element == "Thunder" ) {
+            this.thunder = this.randomPower( 4 + strength );
+        } else if ( this.element == "Rock" ) {
+            this.rock = this.randomPower( 4 + strength );
+        }
+        this.fire += this.randomPower( strength );
+        this.ice += this.randomPower( strength );
+        this.thunder += this.randomPower( strength );
+        this.rock  += this.randomPower( strength );
+        this.astral  += this.randomPower( strength );
+        this.showElementPower();
+        return this.elementList();
     },
     defense: function( elementDamage ) {
         if ( this.element == "Fire" ) {
-            this.fire = Math.floor( Math.random() * 10 );
+            this.fire = this.randomPower( 10 );
             this.ice = Math.floor( this.fire / 2 );
-        }
-        if ( this.element == "Ice" ) {
-            this.ice = Math.floor( Math.random() * 10 );
+        } else if ( this.element == "Ice" ) {
+            this.ice = this.randomPower( 10 );
             this.rock = Math.floor( this.ice / 2 );
-        }
-        if ( this.element == "Thunder" ) {
-            this.thunder = Math.floor( Math.random() * 10 );
+        } else if ( this.element == "Thunder" ) {
+            this.thunder = this.randomPower( 10 );
             this.fire = Math.floor( this.thunder / 2 );
-        }
-        if ( this.element == "Rock" ) {
-            this.rock = Math.floor( Math.random() * 10 );
+        } else if ( this.element == "Rock" ) {
+            this.rock = this.randomPower( 10 );
             this.thunder = Math.floor( this.rock / 2 );
         }
         this.showElementPower();
@@ -88,6 +103,6 @@ var Enemy = Player.extend({
         }
     },
     elementList: function() {
-        return [ this.fire, this.ice, this.thunder, this.rock, this.astral];
+        return [ this.fire, this.ice, this.thunder, this.rock, this.astral ];
     }
 });

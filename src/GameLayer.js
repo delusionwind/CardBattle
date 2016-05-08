@@ -13,7 +13,7 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.deck );
         this.deck.scheduleUpdate();
 
-        this.player = new Player( "New Player", 50 );
+        this.player = new Player( "Player", 50 );
         this.player.setPosition( new cc.Point( 80, 200 ) );
         this.addChild( this.player );
         this.player.scheduleUpdate();
@@ -92,6 +92,7 @@ var GameLayer = cc.LayerColor.extend({
             }
         } else if ( this.phase == GameLayer.PHASE.DEFENSE ) {
             this.phaseEnded++;
+            this.enemy.attack( 3 - this.phaseEnded );
             if ( this.phaseEnded < 2 ) {
                 this.phase = GameLayer.PHASE.ATTACK;
             } else {
