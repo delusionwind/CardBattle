@@ -48,7 +48,7 @@ var BattleStatus = cc.Node.extend({
         }
         this.elementLabel[2].setString( "SPEED: " + this.speed );
     },
-    updateElementPower: function( hand ) {
+    updateElementPower: function( hand, skill ) {
         this.clearElementPower();
         for( var i = 0; i < hand.length; i++ ) {
             if ( hand[i] !== undefined && hand[i].chosen == true ) {

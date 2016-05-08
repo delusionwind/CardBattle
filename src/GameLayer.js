@@ -63,7 +63,7 @@ var GameLayer = cc.LayerColor.extend({
         }, this);
     },
     onKeyDown: function( keyCode, event ) {
-        if ( this.phase == GameLayer.PHASE.END || this.phase == GameLayer.PHASE.GAMEOVER ) {
+        if ( this.phase == GameLayer.PHASE.WIN || this.phase == GameLayer.PHASE.GAMEOVER ) {
             if ( keyCode == 32 ) {
                 cc.director.runScene ( new MenuScene() );
             }
@@ -136,8 +136,7 @@ var GameLayer = cc.LayerColor.extend({
         }
         if ( this.enemy.health <= 0 ) {
             this.phase = GameLayer.PHASE.WIN;
-        }
-        if ( this.player.health <= 0 ) {
+        } else if ( this.player.health <= 0 ) {
             this.phase = GameLayer.PHASE.GAMEOVER;
         }
         this.battleStatus.changePhase( this.phase );
@@ -154,7 +153,7 @@ var GameLayer = cc.LayerColor.extend({
             if ( this.phase == GameLayer.PHASE.MOVE ) {
                 this.battleStatus.updateSpeed( this.cardSlot );
             } else {
-                this.battleStatus.updateElementPower( this.cardSlot );
+                this.battleStatus.updateElementPower( this.cardSlot, null );
             }
         }
     },
