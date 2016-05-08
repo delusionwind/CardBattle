@@ -18,9 +18,10 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.player );
         this.player.scheduleUpdate();
 
-        this.enemy = new Enemy( "Element = Fire", 30, "Fire" );
+        this.enemy = new Enemy( "Black Rectangle", 30, "Fire" );
         this.enemy.setPosition( new cc.Point( 700, 500 ) );
         this.addChild( this.enemy );
+        this.enemy.update();
         this.enemy.scheduleUpdate();
 
         this.cardSlot = new Array(5);
@@ -51,9 +52,6 @@ var GameLayer = cc.LayerColor.extend({
             onKeyPressed : function( keyCode, event ) {
                 self.onKeyDown( keyCode, event );
             },
-            /*onKeyReleased: function( keyCode, event ) {
-                self.onKeyUp( keyCode, event );
-            }*/
         }, this);
     },
     onKeyDown: function( keyCode, event ) {

@@ -18,6 +18,7 @@
         "src/BattleStatus.js",
         "src/Deck.js",
         "src/Player.js",
-        "src/Enemy.js"
+        "src/Enemy.js",
+        "src/Menu.js"
     ]
 }
