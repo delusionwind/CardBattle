@@ -33,8 +33,7 @@ var Menu = cc.LayerColor.extend({
     },
     onKeyDown: function( keyCode, event ) {
         if ( keyCode == 13 ) {
-            this.gameLayer.init();
-            this.addChild( this.gameLayer );
+            cc.director.runScene ( new StartScene() );
         }
     }
 });

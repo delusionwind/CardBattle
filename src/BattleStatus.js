@@ -102,6 +102,10 @@ var BattleStatus = cc.Node.extend({
             this.phaseLabel.setString( "ATTACK PHASE" );
         } else if ( phase == 4 ) {
             this.phaseLabel.setString( "DEFENSE PHASE" );
+        } else if ( phase == 5 ) {
+            this.phaseLabel.setString( "YOU WIN" );
+        } else if ( phase == 6 ) {
+            this.phaseLabel.setString( "You Lose GAMEOVER" );
         }
     },
 

@@ -63,6 +63,11 @@ var GameLayer = cc.LayerColor.extend({
         }, this);
     },
     onKeyDown: function( keyCode, event ) {
+        if ( this.phase == GameLayer.PHASE.END || this.phase == GameLayer.PHASE.GAMEOVER ) {
+            if ( keyCode == 32 ) {
+                cc.director.runScene ( new MenuScene() );
+            }
+        }
         if ( this.phaseAction == false ) {
             if ( keyCode == 49 || keyCode == 97 ) {
                 this.selectExistingCard(0);
@@ -129,7 +134,14 @@ var GameLayer = cc.LayerColor.extend({
             this.battleStatus.clearElementPower();
             this.enemyAttack = this.enemy.attack( 3 - this.phaseEnded );
         }
+        if ( this.enemy.health <= 0 ) {
+            this.phase = GameLayer.PHASE.WIN;
+        }
+        if ( this.player.health <= 0 ) {
+            this.phase = GameLayer.PHASE.GAMEOVER;
+        }
         this.battleStatus.changePhase( this.phase );
+
     },
     startNewTurn: function() {
         this.phaseEnded = 0;
@@ -161,7 +173,9 @@ GameLayer.PHASE = {
     START: 1,
     MOVE: 2,
     ATTACK: 3,
-    DEFENSE: 4
+    DEFENSE: 4,
+    WIN: 5,
+    GAMEOVER: 6
 };
 
 var StartScene = cc.Scene.extend({
