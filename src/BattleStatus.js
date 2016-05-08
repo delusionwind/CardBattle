@@ -8,6 +8,10 @@ var BattleStatus = cc.Node.extend({
         this.phaseLabel.setPosition( new cc.Point( pos.x - 40, pos.y ) );
         this.addChild( this.phaseLabel );
 
+        this.infoLabel = cc.LabelTTF.create( "HELP[H]  SELECT CARD[1-5]  START/OK/ENDPHASE[SPACEBAR]", 'ITC Stone Serif LT Italic', 18 );
+        this.infoLabel.setPosition( new cc.Point( pos.x - 20, pos.y - 30 ) );
+        this.addChild( this.infoLabel );
+
         this.speed = 0;
         this.fire = 0;
         this.ice = 0;
