@@ -18,7 +18,7 @@ var GameLayer = cc.LayerColor.extend({
         this.deck.scheduleUpdate();
 
         this.player = new Player( "Player", 50 );
-        this.player.setPosition( new cc.Point( 80, 200 ) );
+        this.player.setPosition( new cc.Point( 80, 150 ) );
         this.addChild( this.player );
         this.player.scheduleUpdate();
 

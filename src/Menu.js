@@ -7,7 +7,7 @@ var Menu = cc.LayerColor.extend({
         this.backGround.setPosition( new cc.Point( 400, 300 ) );
         this.addChild( this.backGround );
 
-        this.logo = cc.Sprite.create( 'res/images/battleBar.jpg' );
+        this.logo = cc.Sprite.create( 'res/images/logo.png' );
         this.logo.setPosition( new cc.Point( 400, 500 ) );
         this.addChild( this.logo );
 

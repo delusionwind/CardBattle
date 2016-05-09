@@ -6,7 +6,8 @@ var res = {
     astral: 'res/images/card_0.jpg',
     bar: 'res/images/battleBar.jpg',
     howTo: 'res/images/howToPlay.jpg',
-    space: 'res/images/space.jpg'
+    space: 'res/images/space.jpg',
+    logo: 'res/images/logo.png'
 };
 
 var g_resources = [];
