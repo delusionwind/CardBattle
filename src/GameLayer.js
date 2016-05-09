@@ -33,6 +33,11 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.player );
         this.player.scheduleUpdate();
 
+        this.help = cc.Sprite.create( 'res/images/howToPlay.jpg' );
+        this.help.setPosition( new cc.Point( 400, 300 ) );
+        this.addChild( this.help );
+        this.help.setVisible( false );
+
         this.cardSlot = new Array(5);
 
         this.phase = GameLayer.PHASE.START;
@@ -69,7 +74,11 @@ var GameLayer = cc.LayerColor.extend({
     },
     onKeyDown: function( keyCode, event ) {
         if ( keyCode == 72 ) {
-
+            if ( this.help.isVisible() == false ) {
+                this.help.setVisible( true );
+            } else {
+                this.help.setVisible( false );
+            }
         } else if ( this.phase == GameLayer.PHASE.WIN || this.phase == GameLayer.PHASE.GAMEOVER ) {
             if ( keyCode == 32 ) {
                 cc.director.runScene ( new MenuScene() );
