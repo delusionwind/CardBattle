@@ -2,7 +2,12 @@ var Enemy = Player.extend({
     ctor: function( name, hp, element ) {
         this._super( name, hp );
         var pos = this.getPosition();
-        this.picture = cc.Sprite.create( 'res/images/dragon.png' );
+        var randInt = Math.floor( Math.random() * 2 );
+        if ( randInt == 0 ) {
+            this.picture = cc.Sprite.create( 'res/images/dragon.png' );
+        } else {
+            this.picture = cc.Sprite.create( 'res/images/dragon2.png' );
+        }
         this.picture.setPosition( new cc.Point( pos.x - 150, pos.y - 100 ));
         this.addChild( this.picture, -1 );
 
