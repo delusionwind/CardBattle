@@ -7,7 +7,8 @@ var res = {
     bar: 'res/images/battleBar.jpg',
     howTo: 'res/images/howToPlay.jpg',
     space: 'res/images/space.jpg',
-    logo: 'res/images/logo.png'
+    logo: 'res/images/logo.png',
+    dragon: 'res/images/dragon.png'
 };
 
 var g_resources = [];

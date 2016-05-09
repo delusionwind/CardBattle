@@ -7,6 +7,12 @@ var GameLayer = cc.LayerColor.extend({
         this.backGround.setPosition( new cc.Point( 400, 300 ) );
         this.addChild( this.backGround );
 
+        this.enemy = new Enemy( "Dragon", 60, "Fire" );
+        this.enemy.setPosition( new cc.Point( 700, 500 ) );
+        this.addChild( this.enemy, 0 );
+        this.enemy.update();
+        this.enemy.scheduleUpdate();
+
         this.battleStatus = new BattleStatus();
         this.battleStatus.setPosition( new cc.Point( 540, 315 ) );
         this.addChild( this.battleStatus );
@@ -26,12 +32,6 @@ var GameLayer = cc.LayerColor.extend({
         this.player.setPosition( new cc.Point( 80, 150 ) );
         this.addChild( this.player );
         this.player.scheduleUpdate();
-
-        this.enemy = new Enemy( "Black Rectangle", 70, "Fire" );
-        this.enemy.setPosition( new cc.Point( 700, 500 ) );
-        this.addChild( this.enemy );
-        this.enemy.update();
-        this.enemy.scheduleUpdate();
 
         this.cardSlot = new Array(5);
 
@@ -68,12 +68,13 @@ var GameLayer = cc.LayerColor.extend({
         }, this);
     },
     onKeyDown: function( keyCode, event ) {
-        if ( this.phase == GameLayer.PHASE.WIN || this.phase == GameLayer.PHASE.GAMEOVER ) {
+        if ( keyCode == 72 ) {
+
+        } else if ( this.phase == GameLayer.PHASE.WIN || this.phase == GameLayer.PHASE.GAMEOVER ) {
             if ( keyCode == 32 ) {
                 cc.director.runScene ( new MenuScene() );
             }
-        }
-        if ( this.phaseAction == false ) {
+        } else if ( this.phaseAction == false ) {
             if ( keyCode == 49 || keyCode == 97 ) {
                 this.selectExistingCard(0);
             } else if ( keyCode == 50 || keyCode == 98) {
@@ -153,6 +154,7 @@ var GameLayer = cc.LayerColor.extend({
     startNewTurn: function() {
         this.phaseEnded = 0;
         this.phase = GameLayer.PHASE.MOVE;
+        this.enemy.randomElement();
         this.fullHandDraw();
     },
     selectExistingCard: function( slot ) {

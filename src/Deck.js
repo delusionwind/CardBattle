@@ -1,7 +1,7 @@
 var Deck = cc.Node.extend({
     ctor: function() {
         this._super();
-        this.remainingCard = 30;
+        this.remainingCard = 36;
         this.part = new Array(6);
         for( var i = 0; i < this.part.length; i++ ) {
             this.part[i] = cc.Sprite.create( 'res/images/card_0.jpg' );
@@ -18,7 +18,7 @@ var Deck = cc.Node.extend({
     },
     update: function( dt ) {
         for( var i = 0; i < this.part.length; i++ ) {
-            if( this.part[i] !== undefined && this.remainingCard <= ( 5 * i ) ) {
+            if( this.part[i] !== undefined && this.remainingCard <= ( 6 * i ) ) {
                 this.removeChild( this.part[i] );
             }
         }

@@ -2,9 +2,11 @@ var Enemy = Player.extend({
     ctor: function( name, hp, element ) {
         this._super( name, hp );
         var pos = this.getPosition();
-        this.picture = cc.Sprite.create( 'res/images/card_0.jpg' );
-        this.picture.setPosition( new cc.Point( pos.x - 150, pos.y ));
-        this.addChild( this.picture );
+        this.picture = cc.Sprite.create( 'res/images/dragon.png' );
+        this.picture.setPosition( new cc.Point( pos.x - 150, pos.y - 100 ));
+        this.addChild( this.picture, -1 );
+
+
         this.timer = 0;
 
         this.element = element;
@@ -20,6 +22,11 @@ var Enemy = Player.extend({
             this.elementLabel[i].setPosition( new cc.Point( ( ( i - 2 ) * 100 ) - 175, pos.y - 120 ) );
             this.addChild( this.elementLabel[i] );
         }
+    },
+    randomElement: function() {
+        var elementList = [ "Fire", "Ice", "Thunder", "Rock", "Astral" ];
+        var randInt = Math.floor( Math.random() * 5 );
+        this.element = elementList[randInt];
     },
     randomMovePower: function() {
         this.clearElementPower();
@@ -65,6 +72,12 @@ var Enemy = Player.extend({
         } else if ( this.element == "Rock" ) {
             this.rock = this.randomPower( 10 );
             this.thunder = Math.floor( this.rock / 2 );
+        } else {
+            this.fire = this.randomPower( 6 );
+            this.ice = this.randomPower( 6 );
+            this.thunder = this.randomPower( 6 );
+            this.rock = this.randomPower( 6 );
+            this.astral = this.randomPower( 6 );
         }
         this.clearElementLabel();
         this.showElementPower();

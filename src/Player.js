@@ -10,7 +10,7 @@ var Player = cc.Node.extend({
         this.nameLabel.setPosition( new cc.Point( pos.x, pos.y + 40 ) );
         this.addChild( this.nameLabel );
 
-        this.HPLabel = cc.LabelTTF.create( this.health+"/"+this.maxHP, 'ITC Stone Serif LT Italic', 20 );
+        this.HPLabel = cc.LabelTTF.create( "HP: "+this.health+"/"+this.maxHP, 'ITC Stone Serif LT Italic', 20 );
         this.HPLabel.setPosition( new cc.Point( pos.x, pos.y ) );
         this.addChild( this.HPLabel );
     },
@@ -18,6 +18,6 @@ var Player = cc.Node.extend({
         if ( damage > 0 ) {
             this.health -= damage;
         }
-        this.HPLabel.setString( this.health+"/"+this.maxHP );
+        this.HPLabel.setString( "HP: "+this.health+"/"+this.maxHP );
     }
 });
