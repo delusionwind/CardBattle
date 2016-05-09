@@ -12,6 +12,11 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.battleStatus );
         this.battleStatus.scheduleUpdate();
 
+        this.skills = new SkillList();
+        this.skills.setPosition( new cc.Point( 110, 570 ) );
+        this.addChild( this.skills );
+        this.skills.scheduleUpdate();
+
         this.deck = new Deck();
         this.deck.setPosition( new cc.Point( 60, 0 ) );
         this.addChild( this.deck );
@@ -95,10 +100,12 @@ var GameLayer = cc.LayerColor.extend({
                 }
             }
         } else if ( this.phaseAction == true ) {
-            if ( this.phase == GameLayer.PHASE.START ) {
-                this.fullHandDraw();
+            if ( keyCode == 32 ) {
+                if ( this.phase == GameLayer.PHASE.START ) {
+                    this.fullHandDraw();
+                }
+                this.endPhase();
             }
-            this.endPhase();
         }
     },
     endPhase: function() {
@@ -156,6 +163,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.battleStatus.updateElementPower( this.cardSlot, null );
             }
         }
+        this.skills.slot[0].active();
     },
     removeSelectedCard: function() {
         for ( var i = 0; i < this.cardSlot.length; i++ ) {

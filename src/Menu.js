@@ -15,8 +15,6 @@ var Menu = cc.LayerColor.extend({
         this.info.setPosition( new cc.Point( 400, 300 ) );
         this.addChild( this.info );
 
-        this.gameLayer = new GameLayer();
-
         this.addKeyboardHandlers();
         this.scheduleUpdate();
         return true;

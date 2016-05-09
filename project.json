@@ -19,6 +19,8 @@
         "src/Deck.js",
         "src/Player.js",
         "src/Enemy.js",
-        "src/Menu.js"
+        "src/Menu.js",
+        "src/SkillList.js",
+        "src/Skill.js"
     ]
 }
