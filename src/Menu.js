@@ -12,7 +12,7 @@ var Menu = cc.LayerColor.extend({
         this.addChild( this.logo );
 
         this.info = cc.LabelTTF.create( " START GAME\n[PRESS ENTER]", 'ITC Stone Serif LT Italic', 40 );
-        this.info.setPosition( new cc.Point( 400, 300 ) );
+        this.info.setPosition( new cc.Point( 400, 150 ) );
         this.addChild( this.info );
 
         this.addKeyboardHandlers();

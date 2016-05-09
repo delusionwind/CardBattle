@@ -27,7 +27,7 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.player );
         this.player.scheduleUpdate();
 
-        this.enemy = new Enemy( "Black Rectangle", 30, "Fire" );
+        this.enemy = new Enemy( "Black Rectangle", 70, "Fire" );
         this.enemy.setPosition( new cc.Point( 700, 500 ) );
         this.addChild( this.enemy );
         this.enemy.update();
@@ -109,6 +109,7 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     endPhase: function() {
+        this.skills.clearSkill();
         this.phaseAction = false;
         this.enemy.clearElementLabel();
         this.removeSelectedCard();
@@ -139,7 +140,7 @@ var GameLayer = cc.LayerColor.extend({
         }
         if ( this.phase == GameLayer.PHASE.DEFENSE ) {
             this.battleStatus.clearElementPower();
-            this.enemyAttack = this.enemy.attack( 3 - this.phaseEnded );
+            this.enemyAttack = this.enemy.attack( 5 - this.phaseEnded );
         }
         if ( this.enemy.health <= 0 ) {
             this.phase = GameLayer.PHASE.WIN;
@@ -158,12 +159,11 @@ var GameLayer = cc.LayerColor.extend({
         if ( this.cardSlot[slot] !== undefined ) {
             this.cardSlot[slot].select();
             if ( this.phase == GameLayer.PHASE.MOVE ) {
-                this.battleStatus.updateSpeed( this.cardSlot );
+                this.battleStatus.updateSpeed( this.cardSlot, this.skills );
             } else {
-                this.battleStatus.updateElementPower( this.cardSlot, null );
+                this.battleStatus.updateElementPower( this.cardSlot, this.skills, this.phase );
             }
         }
-        this.skills.slot[0].active();
     },
     removeSelectedCard: function() {
         for ( var i = 0; i < this.cardSlot.length; i++ ) {

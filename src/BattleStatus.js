@@ -26,7 +26,7 @@ var BattleStatus = cc.Node.extend({
             this.addChild( this.elementLabel[i] );
         }
     },
-    moveResult: function( enemyMovePower ) {
+    moveResult: function( enemyMovePower, skill ) {
         if ( this.calculateAttacker( enemyMovePower ) >= 0 ) {
             this.phaseLabel.setString( "Player Attack first" );
         } else {
@@ -39,36 +39,59 @@ var BattleStatus = cc.Node.extend({
     defenseResult: function( damage ) {
         this.phaseLabel.setString( "Player receive "+ damage + " damage" );
     },
-    updateSpeed: function( hand ) {
+    updateSpeed: function( hand, skills ) {
         this.clearElementPower();
         for( var i = 0; i < hand.length; i++ ) {
             if ( hand[i] !== undefined && hand[i].chosen == true ) {
                 this.speed += hand[i].power;
+                if ( hand[i].element == "Thunder" ) {
+                    this.thunder += hand[i].power;
+                }
             }
         }
+        this.speed += skills.movePhaseUpdate( this.elementList() );
         this.elementLabel[2].setString( "SPEED: " + this.speed );
     },
-    updateElementPower: function( hand, skill ) {
+    updateElementPower: function( hand, skills, phase ) {
         this.clearElementPower();
         for( var i = 0; i < hand.length; i++ ) {
             if ( hand[i] !== undefined && hand[i].chosen == true ) {
                 if ( hand[i].element == "Fire" ) {
                     this.fire += hand[i].power;
-                    this.elementLabel[0].setString( "Fire\n" + this.fire );
                 } else if ( hand[i].element == "Ice" ) {
                     this.ice += hand[i].power;
-                    this.elementLabel[1].setString( "Ice\n" + this.ice );
                 } else if ( hand[i].element == "Thunder" ) {
                     this.thunder += hand[i].power;
-                    this.elementLabel[2].setString( "Thunder\n" + this.thunder );
                 } else if ( hand[i].element == "Rock" ) {
                     this.rock += hand[i].power;
-                    this.elementLabel[3].setString( "Rock\n" + this.rock );
                 } else {
                     this.astral += hand[i].power;
-                    this.elementLabel[4].setString( "Astral\n" + this.astral );
                 }
             }
+        }
+        var skillPower = skills.attackPhaseUpdate( this.elementList(), phase );
+        this.fire += skillPower[0];
+        this.ice += skillPower[1];
+        this.thunder += skillPower[2];
+        this.rock += skillPower[3];
+        this.astral += skillPower[4];
+        this.updateElementLabel();
+    },
+    updateElementLabel: function() {
+        if ( this.fire > 0 ) {
+            this.elementLabel[0].setString( "Fire\n" + this.fire );
+        }
+        if ( this.ice > 0 ) {
+            this.elementLabel[1].setString( "Ice\n" + this.ice );
+        }
+        if ( this.thunder > 0 ) {
+            this.elementLabel[2].setString( "Thunder\n" + this.thunder );
+        }
+        if ( this.rock > 0 ) {
+            this.elementLabel[3].setString( "Rock\n" + this.rock );
+        }
+        if ( this.astral > 0 ) {
+            this.elementLabel[4].setString( "Astral\n" + this.astral );
         }
     },
     defense: function( enemyElement ) {
